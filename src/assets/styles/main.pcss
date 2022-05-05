@@ -1,0 +1,48 @@
+@import url('./includes/variables.pcss');
+@import url('./includes/texts.pcss');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  margin: 0;
+  background-color: hsl(var(--color-cc-white));
+  color: hsl(var(--color-cc-black));
+}
+
+#app {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: hsl(var(--color-cc-grey-60));
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--color-cc-grey-40));
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--color-cc-grey-30));
+  cursor: pointer;
+}
