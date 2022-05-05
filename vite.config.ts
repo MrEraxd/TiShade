@@ -26,6 +26,10 @@ export default defineConfig({
         find: '@base',
         replacement: path.resolve(path.dirname(''), 'src/components/Base'),
       },
+      {
+        find: '@plugins',
+        replacement: path.resolve(path.dirname(''), 'src/plugins'),
+      },
     ],
   },
 });
