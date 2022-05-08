@@ -1,37 +1,74 @@
-import { darkenColor } from './darkenColor';
-import { hexToHsl } from './hexToHsl';
-import { lightenColor } from './lightenColor';
+import {
+  hexToHsl,
+  lightenColor,
+  darkenColor,
+  hexToRgb,
+  hslToRgb,
+  hslToHex,
+} from './colorFuntions';
+import { IColor } from 'interfaces/Color';
 
-export const calculateTintsAndShades = (baseColor: string) => {
-  // If hex color
-  if (baseColor.search(/[0-9A-Fa-f]{6}/g) === -1) {
+export const calculateTintsAndShades = (
+  hexColor: string,
+  lightenByMixing = false
+): IColor[] | undefined => {
+  // If not hex color
+  if (hexColor.search(/[0-9A-Fa-f]{6}/g) === -1) {
     console.error('Wrong color format');
     return;
   }
 
-  const colorsArray: string[] = [];
+  const baseColor: IColor = {
+    rgb: hexToRgb(hexColor),
+    hsl: hexToHsl(hexColor),
+    hex: {
+      r: hexColor[1] + hexColor[2],
+      g: hexColor[3] + hexColor[4],
+      b: hexColor[5] + hexColor[6],
+    },
+  };
 
-  const baseColorInHsl = hexToHsl(baseColor);
+  const colorArray = [baseColor];
+  const step = 20;
 
-  const tints = [baseColorInHsl];
-  const shades = [baseColorInHsl];
+  if (lightenByMixing) {
+    console.log('lightenByMixing');
+  } else {
+    const startingLightnes = colorArray[0].hsl.l;
+    // Lighter colors
+    for (let i = 0; i < 100 - startingLightnes; i += step) {
+      const lightestColor = colorArray[colorArray.length - 1];
+      const lighterHslColor = lightenColor(lightestColor.hsl, step);
 
-  const lightenAmount = 10;
-  const darkenAmount = 10;
+      if (lighterHslColor.l === lightestColor.hsl.l) {
+        break;
+      }
 
-  for (let i = 0; i < lightenAmount; i++) {
-    const lighterColor = lightenColor(tints[i], lightenAmount / 2);
-    tints.push(lighterColor);
-    colorsArray.unshift(lighterColor);
+      colorArray.push({
+        rgb: hslToRgb(lighterHslColor),
+        hex: hslToHex(lighterHslColor),
+        hsl: lighterHslColor,
+      });
+    }
+
+    // Darker colors
+    for (let i = 0; i < startingLightnes; i += step) {
+      const darkestColor = colorArray[0];
+      const darkerHslColor = darkenColor(darkestColor.hsl, step);
+
+      if (darkerHslColor.l === darkestColor.hsl.l) {
+        break;
+      }
+
+      colorArray.unshift({
+        rgb: hslToRgb(darkerHslColor),
+        hex: hslToHex(darkerHslColor),
+        hsl: darkerHslColor,
+      });
+    }
   }
 
-  colorsArray.push(baseColorInHsl);
+  colorArray.reverse();
 
-  for (let i = 0; i < darkenAmount; i++) {
-    const darkerColor = darkenColor(shades[i], darkenAmount / 2);
-    shades.push(darkerColor);
-    colorsArray.push(darkerColor);
-  }
-
-  return colorsArray;
+  return colorArray;
 };

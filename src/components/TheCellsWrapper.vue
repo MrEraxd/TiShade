@@ -1,17 +1,16 @@
 <script setup lang="ts">
   import BaseColorCell from '@base/BaseColorCell.vue';
-
   import { calculateTintsAndShades } from '@plugins/calculateTintAndShades';
 
-  const options = calculateTintsAndShades('#8a0ca1');
+  const options = calculateTintsAndShades('#ff0000');
 </script>
 
 <template>
   <div class="cells-wrapper">
     <BaseColorCell
-      v-for="cell in options"
-      :key="cell"
-      :hsl-color="cell"
+      v-for="(colors, index) in options"
+      :key="`cell-${index}`"
+      :colors="colors"
     ></BaseColorCell>
   </div>
 </template>
