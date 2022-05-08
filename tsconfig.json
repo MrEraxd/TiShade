@@ -18,7 +18,8 @@
       "@base/*": ["components/Base/*"],
       "@store/*": ["stores/*"],
       "@graphql/*": ["graphql/*"],
-      "@plugins/*": ["plugins/*"]
+      "@plugins/*": ["plugins/*"],
+      "@interfaces/*": ["interfaces/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]

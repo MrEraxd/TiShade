@@ -30,6 +30,10 @@ export default defineConfig({
         find: '@plugins',
         replacement: path.resolve(path.dirname(''), 'src/plugins'),
       },
+      {
+        find: '@interfaces',
+        replacement: path.resolve(path.dirname(''), 'src/interfaces'),
+      },
     ],
   },
 });
