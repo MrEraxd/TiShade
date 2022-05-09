@@ -5,7 +5,7 @@ import {
   hexToRgb,
   hslToRgb,
   hslToHex,
-} from './colorFuntions';
+} from './colorFunctions';
 import { IColor } from 'interfaces/Color';
 
 export const calculateTintsAndShades = (
