@@ -2,7 +2,7 @@
   import BaseColorCell from '@base/BaseColorCell.vue';
   import { calculateTintsAndShades } from '@plugins/calculateTintAndShades';
 
-  const options = calculateTintsAndShades('#ff0000');
+  const options = calculateTintsAndShades('#ff0000', true);
 </script>
 
 <template>
