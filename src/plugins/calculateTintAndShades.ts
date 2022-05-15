@@ -3,7 +3,8 @@ import { IColor } from 'interfaces/Color';
 
 export const calculateTintsAndShades = (
   hexColor: string,
-  lightenByMixing = false
+  lightenByMixing = false,
+  step = 0.1
 ): IColor[] | undefined => {
   const colors = new cf();
 
@@ -23,19 +24,39 @@ export const calculateTintsAndShades = (
     },
   };
 
-  const colorArray = [baseColor];
-  const step = 20;
+  const colorArray: IColor[] = [];
 
   if (lightenByMixing) {
+    // Darker colors
     for (let i = 0; i < 100; i++) {
-      const lightestColor = baseColor;
+      const darkerRgbColor = colors.darkenColorByMixing(
+        baseColor.rgb,
+        step * i
+      );
+
+      if (JSON.stringify(darkerRgbColor) === JSON.stringify(baseColor.rgb)) {
+        break;
+      }
+
+      colorArray.push({
+        rgb: darkerRgbColor,
+        hex: colors.rgbToHex(darkerRgbColor),
+        hsl: colors.rgbToHsl(darkerRgbColor),
+      });
+    }
+
+    colorArray.push(baseColor);
+
+    // Lighter colors
+    for (let i = 1; i < 101; i++) {
       const lighterRgbColor = colors.lightenColorByMixing(
-        lightestColor.rgb,
-        0.1
+        baseColor.rgb,
+        step * i
       );
 
       if (
-        JSON.stringify(lighterRgbColor) === JSON.stringify(lightestColor.rgb)
+        JSON.stringify(lighterRgbColor) ===
+        JSON.stringify(colorArray[colorArray.length - 1].rgb)
       ) {
         break;
       }
@@ -44,24 +65,6 @@ export const calculateTintsAndShades = (
         rgb: lighterRgbColor,
         hex: colors.rgbToHex(lighterRgbColor),
         hsl: colors.rgbToHsl(lighterRgbColor),
-      });
-    }
-
-    for (let i = 0; i < 100; i++) {
-      const darkestColor = baseColor;
-      const darkerRgbColor = colors.darkenColorByMixing(
-        darkestColor.rgb,
-        0.1 * i
-      );
-
-      if (JSON.stringify(darkerRgbColor) === JSON.stringify(darkestColor.rgb)) {
-        break;
-      }
-
-      colorArray.unshift({
-        rgb: darkerRgbColor,
-        hex: colors.rgbToHex(darkerRgbColor),
-        hsl: colors.rgbToHsl(darkerRgbColor),
       });
     }
   } else {
