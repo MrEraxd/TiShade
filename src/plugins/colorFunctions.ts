@@ -295,10 +295,20 @@ export class colorFunctions implements IColorFunctions {
     rgbColor: IRgbColor,
     lightenAmout: number
   ): IRgbColor => {
+    const redValueAfterLightening = parseInt(
+      (255 * lightenAmout + rgbColor.r * (1 - lightenAmout)).toFixed(0)
+    );
+    const greenValueAfterLightening = parseInt(
+      (255 * lightenAmout + rgbColor.g * (1 - lightenAmout)).toFixed(0)
+    );
+    const blueValueAfterLightening = parseInt(
+      (255 * lightenAmout + rgbColor.b * (1 - lightenAmout)).toFixed(0)
+    );
+
     return {
-      r: parseInt(((rgbColor.r + 255) / 2).toFixed(0)),
-      g: parseInt(((rgbColor.g + 255) / 2).toFixed(0)),
-      b: parseInt(((rgbColor.b + 255) / 2).toFixed(0)),
+      r: redValueAfterLightening > 255 ? 255 : redValueAfterLightening,
+      g: greenValueAfterLightening > 255 ? 255 : greenValueAfterLightening,
+      b: blueValueAfterLightening > 255 ? 255 : blueValueAfterLightening,
     };
   };
 }
