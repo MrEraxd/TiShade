@@ -1,14 +1,14 @@
 <script setup lang="ts">
   import BaseColorCell from '@base/BaseColorCell.vue';
-  import { calculateTintsAndShades } from '@plugins/calculateTintAndShades';
+  import { useColorsStore } from '@store/colorsStore';
 
-  const options = calculateTintsAndShades('#ff0000', true);
+  const colorsStore = useColorsStore();
 </script>
 
 <template>
   <div class="cells-wrapper">
     <BaseColorCell
-      v-for="(colors, index) in options"
+      v-for="(colors, index) in colorsStore.currentSwatches"
       :key="`cell-${index}`"
       :colors="colors"
     ></BaseColorCell>
