@@ -34,6 +34,10 @@ export default defineConfig({
         find: '@interfaces',
         replacement: path.resolve(path.dirname(''), 'src/interfaces'),
       },
+      {
+        find: '@store',
+        replacement: path.resolve(path.dirname(''), 'src/stores'),
+      },
     ],
   },
 });
