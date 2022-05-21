@@ -1,20 +1,25 @@
 <script setup lang="ts">
   import GithubIcon from '@svg/logo-github.svg?component';
+  import { colorFunctions as cf } from '@plugins/colorFunctions';
   import { useColorsStore } from '@store/colorsStore';
   import { calculateTintsAndShades } from '@plugins/calculateTintAndShades';
 
+  const colors = new cf();
   const colorsStore = useColorsStore();
 
-  const recalculateSwatches = (baseColor: string) => {
-    colorsStore.setCurrentColor(baseColor);
-
+  const recalculateSwatches = () => {
     const newSwatches = calculateTintsAndShades(
-      baseColor,
+      colorsStore.currentColor,
       colorsStore.getLightenByMixing(),
       colorsStore.getSwatchStep()
     );
     if (newSwatches) colorsStore.setSwatches(newSwatches);
   };
+
+  const randomColor = colors.getRandomHexColor();
+  colorsStore.currentColor = randomColor;
+
+  recalculateSwatches();
 </script>
 
 <template>
@@ -23,8 +28,13 @@
     <input
       class="main-nav__color-input"
       type="color"
-      @input="recalculateSwatches((($event?.target) as HTMLInputElement).value)"
+      :value="randomColor"
+      @input="colorsStore.setCurrentColor((($event?.target) as HTMLInputElement).value), recalculateSwatches()"
     />
+
+    <button @click="colorsStore.toggleLightenByMixing(), recalculateSwatches()">
+      Toggle lighten by mixing
+    </button>
 
     <a
       href="https://github.com/MrEraxd/TiShade"
