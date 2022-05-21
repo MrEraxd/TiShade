@@ -68,7 +68,8 @@ export const calculateTintsAndShades = (
       });
     }
   } else {
-    const startingLightnes = colorArray[0].hsl.l;
+    colorArray.push(baseColor);
+    const startingLightnes = baseColor.hsl.l;
     // Lighter colors
     for (let i = 0; i < 100 - startingLightnes; i += step) {
       const lightestColor = colorArray[colorArray.length - 1];
