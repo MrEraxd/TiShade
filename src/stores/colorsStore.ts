@@ -11,14 +11,14 @@ export const useColorsStore = defineStore('colorsStore', {
     };
   },
   actions: {
-    getSwatches() {
-      return this.currentSwatches;
-    },
     setSwatches(newSwatches: IColor[]) {
       this.currentSwatches = newSwatches;
     },
     setCurrentColor(newColor: string) {
       this.currentColor = newColor;
+    },
+    toggleLightenByMixing() {
+      this.lightenByMixing = !this.lightenByMixing;
     },
     getLightenByMixing() {
       return this.lightenByMixing;
