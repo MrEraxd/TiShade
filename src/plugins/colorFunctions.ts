@@ -12,6 +12,7 @@ interface IColorFunctions {
   ): IHslColor;
   darkenColorByMixing(rgbColor: IRgbColor, darkenAmout: number): IRgbColor;
   lightenColorByMixing(rgbColor: IRgbColor, lightenAmount: number): IRgbColor;
+  getRandomHexColor(): string;
 }
 
 export class colorFunctions implements IColorFunctions {
@@ -262,7 +263,12 @@ export class colorFunctions implements IColorFunctions {
     return {
       h: hslColor.h,
       s: hslColor.s,
-      l: hslColor.l - darkenAmout < 0 ? hslColor.l : hslColor.l - darkenAmout,
+      l: parseInt(
+        (hslColor.l - darkenAmout * 100 < 0
+          ? hslColor.l
+          : hslColor.l - darkenAmout * 100
+        ).toFixed(0)
+      ),
     };
   };
 
@@ -273,10 +279,12 @@ export class colorFunctions implements IColorFunctions {
     return {
       h: hslColor.h,
       s: hslColor.s,
-      l:
-        hslColor.l + lightenAmount > 100
+      l: parseInt(
+        (hslColor.l + lightenAmount * 100 > 100
           ? hslColor.l
-          : hslColor.l + lightenAmount,
+          : hslColor.l + lightenAmount * 100
+        ).toFixed(0)
+      ),
     };
   };
 
@@ -310,5 +318,9 @@ export class colorFunctions implements IColorFunctions {
       g: greenValueAfterLightening > 255 ? 255 : greenValueAfterLightening,
       b: blueValueAfterLightening > 255 ? 255 : blueValueAfterLightening,
     };
+  };
+
+  getRandomHexColor = () => {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
   };
 }
